@@ -1,0 +1,85 @@
+Write command after the >>, enter help for the command list
+>>help
+Commands:
+---------
+insert <id> <name>
+delete <id>
+search <id>
+successor <id>
+predecessor <id>
+min
+max
+median
+inorder
+preorder
+postorder
+quit
+>>insert 8 eight
+>>insert 3 three
+>>insert 4 four
+>>insert 5 five
+>>insert 1 one
+>>insert 2 two
+>>insert 7 seven
+>>insert 6 six
+>>min
+1: one
+>>max
+8: eight
+>>median
+4: four
+>>inorder
+1 2 3 4 5 6 7 8 
+>>preorder
+8 3 1 2 4 5 7 6 
+>>postorder
+6 7 5 4 2 1 3 8 
+>>search 4
+4: four
+>>search 8
+8: eight
+>>search 1
+1: one
+>>delete 1
+>>predecessor 3
+2: two
+>>successor 2
+3: three
+>>successor 5
+6: six
+>>delete 7
+>>inorder
+2 3 4 5 6 8 
+>>median
+4: four
+>>delete 3
+>>inorder
+2 4 5 6 8 
+>>insert
+Not enough arguments.
+>>delete
+Not enough arguments.
+>>search
+Not enough arguments.
+>>successor
+Not enough arguments.
+>>predecessor
+Not enough arguments.
+>>max 1
+Too many arguments.
+>>min 1
+Too many arguments.
+>>median 1
+Too many arguments.
+>>delete 8
+>>delete 4
+>>inorder
+2 5 6 
+>>median
+5: five
+>>delete 3
+Id 3 was not found, and cannot be deleted.
+>>delete 2
+>>inorder
+5 6 
+>>quit
