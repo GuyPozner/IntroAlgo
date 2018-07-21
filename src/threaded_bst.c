@@ -7,7 +7,7 @@
 #define MAX_NAME_LEN 30
 #endif
 
-/*Threaded tree node*/
+/* Threaded tree node */
 typedef struct tnode{
 
 	unsigned int id;
@@ -19,7 +19,7 @@ typedef struct tnode{
 }tnode;
 
 
-/*Threaded binary search tree*/
+/* Threaded binary search tree */
 typedef struct tbst{
 
 	tnode *root;
@@ -31,12 +31,12 @@ typedef struct tbst{
 
 
 
-/*Allocate memory and assigns data to a new tree node*/
+/* Allocate memory and assigns data to a new tree node */
 tnode * new_tnode(unsigned int id, char *name){
 	
 	tnode *new;
 	
-	/*name is larger than allowed*/
+	/* name is larger than allowed */
 	if(strlen(name) > MAX_NAME_LEN){
 		fprintf(stderr, "%s exceeds name character limitations(%d).\n", name, MAX_NAME_LEN);
 		exit(0);
@@ -66,7 +66,7 @@ tbst * new_tree(){
 	tnode *root = NULL;
 	tnode *median = NULL;
 	
-	/*Populate tree*/
+	/* Populate tree*/
 	new->parity = 0;
 	new->root = root;
 	new->median = median;
@@ -75,7 +75,7 @@ tbst * new_tree(){
 }
 
 
-/*Prints the data of a tree node*/
+/* Prints the data of a tree node */
 void print_tnode(tnode *node){
 	
 	if(node == NULL){
@@ -96,25 +96,25 @@ tnode * subtree_search(tnode *root, unsigned int id){
 	tnode *node = root;
 
 	while(node != NULL){
-		/*Move to the left subtree*/
+		/* Move to the left subtree */
 		if(id < node->id){
 			if(node->left_thread == 0)
 				node = node->left;
 			else
 				break;
 		
-		/*Move to the right subtree*/
+		/* Move to the right subtree */
 		} else if(id > node->id){
 			if(node->right_thread == 0)
 				node = node->right;
 			else
 				break;
-		/*If id was found*/
+		/* If id was found */
 		} else {
 			return node;
 		}
 	}
-	/*return a NULL pointer if id wasn't found*/
+	/* return a NULL pointer if id wasn't found */
 	printf("Id %d was not found.\n", id);
 	return NULL;
 }
@@ -166,7 +166,7 @@ tnode * tree_search(tbst *tree, unsigned int id){
 
 
 /* Minimum function for tbst type
-* If tree is empty returns a NULL pointer */
+ * If tree is empty returns a NULL pointer */
 tnode * tree_minimum(tbst *tree){
 	return subtree_minimum(tree->root);
 }
@@ -217,18 +217,18 @@ tnode *successor(tnode *node){
 	if(tmp_tnode == NULL)
 		return NULL;
 
-	/*If a right thread is found than right points to the succesor*/
+	/* If a right thread is found than right points to the succesor */
 	if(node->right_thread == 1)
 		return node->right;
 
-	/*Otherwise it is the minimum child of the right subtree*/
+	/* Otherwise it is the minimum child of the right subtree */
 	tmp_tnode = subtree_minimum(tmp_tnode->right);
 
 	return tmp_tnode;
 }
 
 
-/*Inserts a new node to the threaded binary tree*/
+/* Inserts a new node to the threaded binary tree */
 tbst * insert_tnode(tbst *tree, unsigned int id, char *name){
 	
 	tnode *node, *parent;
@@ -314,10 +314,10 @@ tbst * insert_tnode(tbst *tree, unsigned int id, char *name){
 	return tree;
 }
 
-/*Deletes a leaf, returns pointer to the root*/
+/* Deletes a leaf, returns pointer to the root */
 tnode * leaf_deletion(tnode *root, tnode *parent, tnode *node){
 
-	/*The leaf is the root*/
+	/* The leaf is the root */
 	if(parent == NULL)
 		root = NULL;
 
@@ -326,13 +326,13 @@ tnode * leaf_deletion(tnode *root, tnode *parent, tnode *node){
 		parent->left_thread = 1;
 		parent->left = node->left;
 
-	/*The leaf is a right child*/
+	/* The leaf is a right child */
 	} else {
 		parent->right_thread = 1;
 		parent->right = node->right;
 	}
 
-	/*Free the memory taken by the deleted node*/
+	/* Free the memory taken by the deleted node */
 	free(node);
 	return root;
 }
@@ -341,42 +341,42 @@ tnode * one_child_deletion(tnode *root, tnode *parent, tnode *node){
 
 	tnode *child, *s, *p;
 
-	/*Store the subtree of the child*/
+	/* Store the subtree of the child */
 	if(node->left_thread)
 		child = node->right;
 	else
 		child = node->left;
 
 
-	/*Root deletion*/
+	/* Root deletion */
 	if(parent == NULL)
 		root = child;
 
-	/*The deleted node is a left child*/
+	/* The deleted node is a left child */
 	else if(node == parent->left)
 		parent->left = child;
 
-	/*The deleted node is a right child*/
+	/* The deleted node is a right child */
 	else
 		parent->right = child;
 
-	/*Populate the threads of the deleted node succesor/predecesor*/
+	/* Populate the threads of the deleted node succesor/predecesor */
 	s = successor(node);
 	p = predecessor(node);
 	
 
-	/*If the node to be deleted has a right subtree
-	Its succesor inherits its predecessor*/
+	/* If the node to be deleted has a right subtree
+	 * Its succesor inherits its predecessor */
 	if(node->left_thread == 0){
 		p->right = s;
 	
-	/*Otherwise, its predecessor inherits its succesor*/
+	/* Otherwise, its predecessor inherits its succesor */
 	} else {
 		if(node->right_thread == 0)
 			s->left = p;
 	}
 	
-	/*Free the memory taken by the deleted node*/
+	/* Free the memory taken by the deleted node */
 	free(node);
 	return root;
 }
@@ -385,7 +385,7 @@ tnode * two_children_deletion(tnode *root, tnode *parent, tnode *node){
 
 	tnode *successor, *successor_parent;
 
-	/*Find the succsor and its parent of the node to be delted*/
+	/* Find the succsor and its parent of the node to be delted */
 	successor_parent = node;
 	successor = node->right;
 	while(successor->left_thread == 0){
@@ -393,8 +393,8 @@ tnode * two_children_deletion(tnode *root, tnode *parent, tnode *node){
 		successor = successor->left;
 	}
 
-	/*Copy the information from the succesor to the pointer of the deleted node,
-	delete the succesor with one child or leaf deletion*/
+	/* Copy the information from the succesor to the pointer of the deleted node,
+	 * delete the succesor with one child or leaf deletion */
 	node->id = successor->id;
 	strcpy(node->name, successor->name);
 
@@ -412,7 +412,7 @@ tbst * delete_tnode(tbst *tree, unsigned int id){
 	tnode *node, *parent;
 	unsigned int found = 0;
 
-	/*Search for the node and its parent in the tree*/
+	/* Search for the node and its parent in the tree */
 	node = tree->root;
 	parent = NULL;
 	
@@ -424,14 +424,14 @@ tbst * delete_tnode(tbst *tree, unsigned int id){
 
 		parent = node;
 		
-		/*Move in the left subtree*/
+		/* Move in the left subtree */
 		if(id < node->id){
 			if(node->left_thread == 0)
 				node = node->left;
 			else
 				break;
 
-		/*Move in the right subtree*/
+		/* Move in the right subtree */
 		} else {
 			if(node->right_thread == 0)
 				node = node->right;
@@ -460,19 +460,19 @@ tbst * delete_tnode(tbst *tree, unsigned int id){
 		tree->median = successor(tree->median);
 
 
-    /*The deleted node has two children*/
+    /* The deleted node has two children */
     if (node->left_thread == 0 && node->right_thread == 0)
         tree->root = two_children_deletion(tree->root, parent, node);
     	
 
-    /*The deleted node has one child*/
+    /* The deleted node has one child */
     else if (node->left_thread == 0)
         tree->root = one_child_deletion(tree->root, parent, node);
     
     else if(node->right_thread == 0)
         tree->root = one_child_deletion(tree->root, parent, node);
  
-    /*The deleted node is a leaf*/
+    /* The deleted node is a leaf */
     else
         tree->root = leaf_deletion(tree->root, parent, node);
 
