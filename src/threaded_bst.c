@@ -450,8 +450,11 @@ tbst * delete_tnode(tbst *tree, unsigned int id){
 	tree->parity = tree->parity ^ 1;
  	
 	/* Update the median */
-	if(id == tree->median->id)
+	if(id == tree->median->id && tree->parity)
 		tree->median = successor(tree->median);
+
+	else if(id == tree->median->id && !tree->parity)
+		tree->median = predecessor(tree->median);
 
 	else if(id > tree->median->id && !tree->parity)
 		tree->median = predecessor(tree->median);
