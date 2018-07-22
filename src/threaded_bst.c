@@ -480,13 +480,10 @@ tbst * delete_tnode(tbst *tree, unsigned int id){
 /* Iterative inorder print of a sub threaded binary search tree*/
 void subtree_inorder(tnode *root){
 	
-	tnode *tmp_tnode = root;
+	tnode *tmp_tnode = subtree_minimum(root);
 
     if(tmp_tnode == NULL)
         printf("Tree is empty");
- 
-    while (tmp_tnode->left_thread == 0)
-    	tmp_tnode = tmp_tnode->left;
  
     while(tmp_tnode != NULL){
     	printf("%d ", tmp_tnode->id);
@@ -499,10 +496,10 @@ void subtree_inorder(tnode *root){
 void subtree_preorder(tnode *root){
 	
 	printf("%d ", root->id);
-	if(root->left_thread == 0 && root->left != NULL){
+	if(root->left_thread == 0){
 		subtree_preorder(root->left);
 	}
-	if(root->right_thread == 0 && root->right != NULL){
+	if(root->right_thread == 0){
 		subtree_preorder(root->right);
 	}
 }
@@ -510,12 +507,12 @@ void subtree_preorder(tnode *root){
 /* Postorder print of a sub threaded binary tree */
 void subtree_postorder(tnode *root){
 	
-	if(root->right_thread == 0 && root->right != NULL){
-		subtree_postorder(root->right);
+	if(root->right_thread == 0){
+		subtree_postorder(root->left);
 	}
 
-	if(root->left_thread == 0 && root->left != NULL){
-		subtree_postorder(root->left);
+	if(root->left_thread == 0){
+		subtree_postorder(root->right);
 	}
 	printf("%d ", root->id);
 }
@@ -524,23 +521,32 @@ void subtree_postorder(tnode *root){
 void tree_inorder(tbst *tree){
 	if(tree->root != NULL)
 		subtree_inorder(tree->root);
-
+	else
+		printf("Tree is empty.\n");
 }
 
 
 /* Recursive preorder print of a threaded binary search tree */
 void tree_preorder(tbst *tree){
-	if(tree->root != NULL)
+	if(tree->root != NULL){
 		subtree_preorder(tree->root);
-	putchar('\n');
+		putchar('\n');
+	} else {
+		printf("Tree is empty.\n");
+	}
+	
 	
 }
 
 /* Recursive post print of a threaded binary search tree */
 void tree_postorder(tbst *tree){
-	if(tree->root != NULL)
+	
+	if(tree->root != NULL){
 		subtree_postorder(tree->root);
-	putchar('\n');
+		putchar('\n');
+	} else {
+		printf("Tree is empty.\n");
+	}
 	
 }
 
