@@ -234,8 +234,6 @@ tbst * insert_tnode(tbst *tree, unsigned int id, char *name){
 	tnode *node, *parent;
 	tnode *new;
 
-	/* Inserting changes the parity of the tree */
-	tree->parity = tree->parity ^ 1;
 
 	/* Find the position of the new node */
 	node = tree->root;
@@ -265,6 +263,8 @@ tbst * insert_tnode(tbst *tree, unsigned int id, char *name){
 			return tree;
 		}
 	}
+	/* Inserting changes the parity of the tree */
+	tree->parity = tree->parity ^ 1;
 
 	/* Create the new node */
 	new = new_tnode(id, name);
@@ -507,11 +507,11 @@ void subtree_preorder(tnode *root){
 /* Postorder print of a sub threaded binary tree */
 void subtree_postorder(tnode *root){
 	
-	if(root->right_thread == 0){
+	if(root->left_thread == 0){
 		subtree_postorder(root->left);
 	}
 
-	if(root->left_thread == 0){
+	if(root->right_thread == 0){
 		subtree_postorder(root->right);
 	}
 	printf("%d ", root->id);
