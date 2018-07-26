@@ -40,4 +40,8 @@ median
 delete 3
 delete 2
 inorder
+delete 5
+inorder
+delete 6
+median
 quit

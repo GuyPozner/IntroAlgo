@@ -553,5 +553,10 @@ void tree_postorder(tbst *tree){
 /* Gets the median tnode
  * If tree is empty returns a NULL pointer */
 tnode * tree_median(tbst *tree){
+
+	/* An empty tree has no median */
+	if(tree->root == NULL)
+		return NULL;
+	
 	return tree->median;
 }
