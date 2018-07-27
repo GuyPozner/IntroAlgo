@@ -88,4 +88,28 @@ Id 3 was not found, and cannot be deleted.
 >>delete 6
 >>median
 Warning: Trying to print an empty node.
+>>insert 3 three
+>>insert 2 two
+>>insert 1 one
+>>insert 4 four
+>>insert 6 six
+>>insert 5 five
+>>delete 1
+>>delete 6
+>>delete 3
+>>inorder
+2 4 5 
+>>median
+4: four
+>>delete 4
+>>inorder
+2 5 
+>>median
+2: two
+>>delete 2
+>>inorder
+5 
+>>median
+5: five
+>>delete 5
 >>quit

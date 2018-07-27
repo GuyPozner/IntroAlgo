@@ -450,20 +450,36 @@ tbst * delete_tnode(tbst *tree, unsigned int id){
 	tree->parity = tree->parity ^ 1;
  	
 	/* Update the median */
-	if(id >= tree->median->id && !tree->parity)
-		tree->median = predecessor(tree->median);
+	if(!(node->left_thread == 0 && node->right_thread == 0)){
+		
+		if(id >= tree->median->id && !tree->parity)
+			tree->median = predecessor(tree->median);
 
-	else if(id <= tree->median->id && tree->parity)
-		tree->median = successor(tree->median);
+		else if(id <= tree->median->id && tree->parity)
+			tree->median = successor(tree->median);
+	
+	/* The deletion of a node with two children copies the information of the succesor
+	 * into the deleted node position in memory*/
+	} else {
+
+		if(id > tree->median->id && !tree->parity)
+			tree->median = predecessor(tree->median);
+
+		else if(id < tree->median->id && tree->parity)
+			tree->median = successor(tree->median);
+
+		else if(id == tree->median->id && !tree->parity)
+			tree->median = predecessor(tree->median);
+	}
 
 
     /* The deleted node has two children */
-    if (node->left_thread == 0 && node->right_thread == 0)
+    if(node->left_thread == 0 && node->right_thread == 0)
         tree->root = two_children_deletion(tree->root, parent, node);
     	
 
     /* The deleted node has one child */
-    else if (node->left_thread == 0)
+    else if(node->left_thread == 0)
         tree->root = one_child_deletion(tree->root, parent, node);
     
     else if(node->right_thread == 0)
@@ -557,6 +573,6 @@ tnode * tree_median(tbst *tree){
 	/* An empty tree has no median */
 	if(tree->root == NULL)
 		return NULL;
-	
+
 	return tree->median;
 }

@@ -44,4 +44,22 @@ delete 5
 inorder
 delete 6
 median
+insert 3 three
+insert 2 two
+insert 1 one
+insert 4 four
+insert 6 six
+insert 5 five
+delete 1
+delete 6
+delete 3
+inorder
+median
+delete 4
+inorder
+median
+delete 2
+inorder
+median
+delete 5
 quit
